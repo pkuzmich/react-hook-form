@@ -17,7 +17,6 @@ function SignUpForm() {
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     await sleep(2000);
-    console.log("❗ data: ", data);
     fetch("/signup", {
       method: "POST",
       body: JSON.stringify(data),
