@@ -1,4 +1,5 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
+import { Input } from "@chakra-ui/react";
 
 type SignUpFormData = {
   firstName: string;
@@ -8,7 +9,7 @@ type SignUpFormData = {
 };
 
 function SignUpForm() {
-  const { register, handleSubmit, formState } = useForm<SignUpFormData>();
+  const { register, control, handleSubmit, formState } = useForm<SignUpFormData>();
   const { errors, isDirty, isSubmitting } = formState;
 
   const sleep = async (timeout: number) => {
@@ -30,8 +31,16 @@ function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" placeholder="First name" {...register("firstName", { required: true })} />
-      {errors.firstName?.type === "required" && <p className="error">First name is required</p>}
+      <div className="form-container">
+        <Controller
+          name="firstName"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => <Input {...field} variant="flushed" />}
+        />
+        {errors.firstName?.type === "required" && <p className="error">First name is required</p>}
+      </div>
+      {/*<input type="text" placeholder="First name" {...register("firstName", { required: true })} />*/}
 
       <input type="text" placeholder="Last name" {...register("lastName", { required: true })} />
       {errors.lastName?.type === "required" && <span className="error">Last name is required</span>}
